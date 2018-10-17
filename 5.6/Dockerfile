@@ -4,6 +4,7 @@ FROM centos/s2i-base-centos7
 # applications.
 
 EXPOSE 8080
+EXPOSE 80
 EXPOSE 8443
 
 # Description
@@ -29,20 +30,20 @@ LABEL summary="${SUMMARY}" \
       description="${DESCRIPTION}" \
       io.k8s.description="${DESCRIPTION}" \
       io.k8s.display-name="Apache 2.4 with PHP ${PHP_VERSION}" \
-      io.openshift.expose-services="8080:http" \
+      io.openshift.expose-services="80:http" \
       io.openshift.tags="builder,${NAME},${NAME}${PHP_VER_SHORT},rh-${NAME}${PHP_VER_SHORT}" \
       io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
       io.s2i.scripts-url="image:///usr/libexec/s2i" \
       name="centos/${NAME}-${PHP_VER_SHORT}-centos7" \
       com.redhat.component="rh-${NAME}${PHP_VER_SHORT}-docker" \
       version="${PHP_VERSION}" \
-      help="For more information visit https://github.com/sclorg/s2i-${NAME}-container" \
-      usage="s2i build https://github.com/sclorg/s2i-php-container.git --context-dir=${PHP_VERSION}/test/test-app centos/${NAME}-${PHP_VER_SHORT}-centos7 sample-server" \
-      maintainer="SoftwareCollections.org <sclorg@redhat.com>"
+      help="For more information visit https://github.com/reijovosu/s2i-${NAME}-container" \
+      usage="s2i build https://github.com/reijovosu/s2i-php-container.git --context-dir=${PHP_VERSION}/test/test-app centos/${NAME}-${PHP_VER_SHORT}-centos7 sample-server" \
+      maintainer="Reijo Vosu"
 
 # Install Apache httpd and PHP
 RUN yum install -y centos-release-scl && \
-    INSTALL_PKGS="rh-php56 rh-php56-php rh-php56-php-mysqlnd rh-php56-php-pgsql rh-php56-php-bcmath \
+    INSTALL_PKGS="rh-php56 rh-php56-php rh-php56-mcrypt rh-php56-php-mysqlnd rh-php56-php-pgsql rh-php56-php-bcmath \
                   rh-php56-php-gd rh-php56-php-intl rh-php56-php-ldap rh-php56-php-mbstring rh-php56-php-pdo \
                   rh-php56-php-pecl-memcache rh-php56-php-process rh-php56-php-soap rh-php56-php-opcache rh-php56-php-xml \
                   rh-php56-php-pecl-xdebug rh-php56-php-gmp httpd24-mod_ssl" && \
